@@ -175,7 +175,8 @@ namespace Cave.Media.Video
 		glfw3.Window window;
 		bool disposedValue = false;
 		glfw3.WindowCloseFunc funcWindowClose;
-		glfw3.FramebufferSizeFunc funcWindowChanged;
+		glfw3.FramebufferSizeFunc funcWindowChange;
+        glfw3.MouseButtonFunc funcMouseButtonChange;
 		int shaderProgram;
 		int shaderVertexPosition;
 		int shaderTextureCoordinates;
@@ -311,16 +312,37 @@ namespace Cave.Media.Video
 			Closed?.Invoke(this, new EventArgs());
 		}
 
-		void WindowChanged(glfw3.Window window, int width, int height)
+		void WindowChange(glfw3.Window window, int width, int height)
 		{
 			PrepareFramebuffer();
 		}
+
+        Vector2 GetMousePosition(glfw3.Window window)
+        {
+            double x, y;
+            glfw3.GetCursorPos(window, out x, out y);
+            x = 2f * x / Resolution.X - 1f;
+            y = -2f * y / Resolution.Y + 1f;
+            return Vector2.Create((float)x, (float)y);
+        }
+
+        void MouseButtonChange(glfw3.Window window, glfw3.MouseButton button, glfw3.InputState state, glfw3.KeyMods mods)
+        {
+            MouseButtonChanged?.Invoke(this,
+                new glfw3.MouseButtonEventArgs()
+                {
+                    Position = GetMousePosition(window),
+                    Button = button,
+                    State = state,
+                    Mods = mods
+                });
+        }
 
 		void PrepareFramebuffer()
 		{
 			glfw3.GetFramebufferSize(window, out int w, out int h);
 			gl2.Viewport(0, 0, w, h);
-			//Resolution = Vector2.Create(w, h);
+			Resolution = Vector2.Create(w, h);
 		}
 		#endregion
 
@@ -345,6 +367,9 @@ namespace Cave.Media.Video
 		/// Provides a callback after the user closed the window
 		/// </summary>
 		public event EventHandler<EventArgs> Closed;
+
+
+        public event EventHandler<glfw3.MouseButtonEventArgs> MouseButtonChanged;
 
 		/// <summary>
 		/// Resolution of the backbuffer
@@ -454,8 +479,9 @@ namespace Cave.Media.Video
 			}
 			glfw3.MakeContextCurrent(window);
 			glfw3.SwapInterval(flags.HasFlag(RendererFlags.WaitRetrace) ? 1 : 0);
-			glfw3.SetFramebufferSizeCallback(window, funcWindowChanged = new glfw3.FramebufferSizeFunc(WindowChanged));
+			glfw3.SetFramebufferSizeCallback(window, funcWindowChange = new glfw3.FramebufferSizeFunc(WindowChange));
 			glfw3.SetWindowCloseCallback(window, funcWindowClose = new glfw3.WindowCloseFunc(WindowClose));
+            glfw3.SetMouseButtonCallback(window, funcMouseButtonChange = new glfw3.MouseButtonFunc(MouseButtonChange));
 
 			gl2.GetIntegerv(GL._MAX_TEXTURE_SIZE, out int maxTextureSize);
 			CheckErrors("GL_MAX_TEXTURE_SIZE");

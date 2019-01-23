@@ -33,12 +33,18 @@ namespace OGLTest
             IRenderDevice[] devs = renderer.GetDevices();
             if (devs.Length < 1) throw new Exception("no devices found");
             renderer.Closed += WindowClosed;
+            renderer.MouseButtonChanged += MBChanged;
             renderer.Initialize(devs[0], RendererMode.Window, RendererFlags.WaitRetrace, 1024, 768, "OpenGL Test");
             circles = new Bitmap32[5];
             for (int i = 0; i < circles.Length; i++)
             {
                 circles[i] = Circle(ARGB.Random);
             }
+        }
+
+        private void MBChanged(object sender, glfw3.MouseButtonEventArgs e)
+        {
+            Console.WriteLine($"Button {e.Button.ToString()} was {e.State.ToString()} at ({e.Position.X},{e.Position.Y})");
         }
 
         private Bitmap32 Circle(Color color)
