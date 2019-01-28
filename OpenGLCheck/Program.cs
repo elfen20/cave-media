@@ -18,10 +18,12 @@ namespace OpenGLCheck
         bool closed = false;
         bool verbose = false;
 
+        int testNr = 0;
         int width = 800;
         int height = 600;
         int display = 0;
         RendererMode rmode = RendererMode.Window;
+
 
         List<IRenderSprite> rSprites = new List<IRenderSprite>();
 
@@ -83,20 +85,37 @@ namespace OpenGLCheck
             Initialize(args);
             if (args.IsOptionPresent("t"))
             {
-                CreateSprites(args.Options["t"].Value);
+                if (!int.TryParse(args.Options["t"].Value, out testNr)) throw new Exception("error parsing test number");
+                CreateSprites();
             }
             Play();
         }
 
-        private void CreateSprites(string value)
+        private void CreateSprites()
         {
-            switch (value)
+            if (testNr > 0)
             {
-                case "1":
-                    var s1 = renderer.CreateSprite("1");
-                    s1.LoadTexture(new GdiBitmap32(TestImageGenerator.GenerateCheckerBoard(new Size(64,64),new Size(8,8),Color.Blue, Color.Gray)));
-                    rSprites.Add(s1);
-                    break;
+                var bg = renderer.CreateSprite("1");
+                bg.LoadTexture(new GdiBitmap32(TestImageGenerator.GenerateCheckerBoard(new Size(64,64),new Size(8,8),Color.Blue, Color.Gray)));
+                rSprites.Add(bg);
+            }
+            if (testNr > 1)
+            {
+                var fps = renderer.CreateSprite("fps");
+               // fps.Tint = Color.Red;
+                fps.Position = Vector3.Create(-0.75f, -0.75f, 0f);
+                fps.Scale = Vector3.Create(0.3f, 0.2f, 1);
+                rSprites.Add(fps);
+
+            }
+            if (testNr > 2)
+            {
+                var rect = renderer.CreateSprite("rect");
+                rect.Alpha = 0.6f;
+                rect.Scale = Vector3.Create(0.6f, 0.6f, 1);
+                rect.LoadTexture(new GdiBitmap32(TestImageGenerator.GenerateColorStripes(new Size(256, 256))));
+                rSprites.Add(rect);
+
             }
         }
 
@@ -109,9 +128,10 @@ namespace OpenGLCheck
             TimeSpan onesec = TimeSpan.FromSeconds(1);
             while (!closed)
             {
-                float msecs = (float)(DateTime.Now - runsince).TotalMilliseconds;
+                UpdateSprites(DateTime.Now - runsince);
                 Render();
                 counter++;
+                float msecs = (float)(DateTime.Now - runsince).TotalMilliseconds;
                 if ((DateTime.Now - starttime) > onesec)
                 {
                     SystemConsole.WriteLine($"FPS: <yellow>{counter}<default>");
@@ -123,9 +143,23 @@ namespace OpenGLCheck
             }
         }
 
+        private void UpdateSprites(TimeSpan timeSpan)
+        {
+           if (testNr > 1)
+            {
+                string ms = (timeSpan.TotalMilliseconds / 1000f).ToString("F2");
+                rSprites[1].LoadTexture(new GdiBitmap32(TestImageGenerator.GenerateString(new Size(150, 50), Color.Goldenrod, Color.Transparent, ms,0.8f)));
+            }
+            if (testNr > 1)
+            {
+                rSprites[2].Rotation = Vector3.Create(0,0,(float)timeSpan.TotalMilliseconds / 3000);
+            }
+        }
+
         private void Render()
         {
             renderer.Clear(Color.DarkBlue);
+            
             renderer.Render(rSprites);
             renderer.Present();
         }
