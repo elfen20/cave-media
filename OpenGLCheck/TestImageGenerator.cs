@@ -95,8 +95,8 @@ namespace OpenGLCheck
                 Brush bg = new SolidBrush(background);
                 g.FillRectangle(bg, new Rectangle(Point.Empty, size));
                 RectangleF rec = new RectangleF((size.Width / 2) * (1 - sizeratio), (size.Height / 2) * (1 - sizeratio), (size.Width) * (sizeratio), (size.Height) * (sizeratio));
-                Pen fgp = new Pen(foreground);
-                g.DrawRectangle(fgp, rec.X, rec.Y, rec.Width - 0.5f, rec.Height - 0.5f);
+                //Pen fgp = new Pen(foreground);
+                //g.DrawRectangle(fgp, rec.X, rec.Y, rec.Width - 0.5f, rec.Height - 0.5f);
                 Brush fgb = new SolidBrush(foreground);
                 g.DrawString(text, new Font(FontFamily.GenericSansSerif, rec.Height * 0.72f), fgb, rec);
             }
