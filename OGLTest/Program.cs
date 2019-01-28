@@ -29,7 +29,7 @@ namespace OGLTest
         private void Initialize()
         {
             renderer = new Glfw3Renderer();
-            if (!renderer.IsAvailable) throw new Exception("render not available");
+            if (!renderer.IsAvailable) throw new Exception("renderer is not available!");
             IRenderDevice[] devs = renderer.GetDevices();
             if (devs.Length < 1) throw new Exception("no devices found");
             renderer.Closed += WindowClosed;
