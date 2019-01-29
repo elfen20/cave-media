@@ -20,7 +20,7 @@ namespace OpenGLCheck
 
         int testNr = 0;
         int width = 800;
-        int height = 600;
+        int height = 400;
         int display = 0;
         RendererMode rmode = RendererMode.Window;
 
@@ -138,7 +138,7 @@ namespace OpenGLCheck
                     counter = 0;
                     starttime = DateTime.Now;
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(1);
                 if (SystemConsole.KeyAvailable) closed = true;
             }
         }
@@ -187,7 +187,7 @@ namespace OpenGLCheck
                 if (!int.TryParse(args.Options["d"].Value, out width)) throw new Exception("error parsing display number");
                 SystemConsole.WriteLine($"\t<yellow>Using {display}: {devs[display].Name}<default>");
             }
-
+            renderer.UseResolutionAspect = true;
             renderer.Closed += WindowClosed;
             renderer.MouseButtonChanged += MBChanged;
             renderer.Initialize(devs[display], rmode, RendererFlags.WaitRetrace, width, height, "OpenGL Test");
