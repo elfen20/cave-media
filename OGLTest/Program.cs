@@ -44,7 +44,7 @@ namespace OGLTest
 
         private void MBChanged(object sender, glfw3.MouseButtonEventArgs e)
         {
-            Console.WriteLine($"Button {e.Button.ToString()} was {e.State.ToString()} at ({e.Position.X},{e.Position.Y})");
+            Console.WriteLine($"Button {e.Button.ToString()} was {e.State.ToString()} at ({e.PositionNorm.X},{e.PositionNorm.Y})");
         }
 
         private Bitmap32 Circle(Color color)
