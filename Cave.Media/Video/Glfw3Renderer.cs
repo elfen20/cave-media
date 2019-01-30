@@ -186,7 +186,7 @@ namespace Cave.Media.Video
 		int shaderTranslation;
 		int shaderRotation;
 		int shaderScale;
-        bool useResolutionAspect = false;
+        AspectCorrectionMode aspectCorrection = AspectCorrectionMode.None;
 		#endregion
 
 		#region private functions
@@ -322,21 +322,14 @@ namespace Cave.Media.Video
         {
             double x, y;
             glfw3.GetCursorPos(window, out x, out y);
-            x = 2f * x / Resolution.X - 1f;
-            y = -2f * y / Resolution.Y + 1f;
             return Vector2.Create((float)x, (float)y);
         }
 
         void MouseButtonChange(glfw3.Window window, glfw3.MouseButton button, glfw3.InputState state, glfw3.KeyMods mods)
         {
-            MouseButtonChanged?.Invoke(this,
-                new glfw3.MouseButtonEventArgs()
-                {
-                    Position = GetMousePosition(window),
-                    Button = button,
-                    State = state,
-                    Mods = mods
-                });
+            Vector2 mousePosition = GetMousePosition(window);
+            Vector2 mousePositionNorm = Vector2.Create(mousePosition.X / Resolution.X, mousePosition.Y / Resolution.Y);
+            MouseButtonChanged?.Invoke(this,new glfw3.MouseButtonEventArgs(mousePosition, mousePositionNorm, button, state, mods));
         }
 
 		void PrepareFramebuffer()
@@ -344,31 +337,45 @@ namespace Cave.Media.Video
 			glfw3.GetFramebufferSize(window, out int w, out int h);
 			gl2.Viewport(0, 0, w, h);
 			Resolution = Vector2.Create(w, h);
-            UpdateAspect();
+            UpdateAspectCorrection();
 		}
 
-        void UpdateAspect()
+        void UpdateAspectCorrection()
         {
-            if (useResolutionAspect)
+            float hb = 1f, vb = 1f;
+            float aspect = Resolution.X / Resolution.Y;
+            switch (aspectCorrection)
             {
-                float hb = 1f, vb = 1f;
-                float aspect = Resolution.X / Resolution.Y;
-                if (aspect > 1)
-                {
-                    hb = aspect;
-                }
-
-                if (aspect < 1)
-                {
-                    vb = 1f / aspect;
-                }
-                gl2.LoadIdentity();
-                gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
-            }
-            else
-            {
-                gl2.LoadIdentity();
-                gl2.Ortho(-1, 1, -1, 1, 0, -100);
+                case AspectCorrectionMode.None:
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-1, 1, -1, 1, 0, -100);
+                    break;
+                case AspectCorrectionMode.TouchInner:
+                    if (aspect > 1)
+                    {
+                        hb = aspect;
+                    }
+                    if (aspect < 1)
+                    {
+                        vb = 1f / aspect;
+                    }
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
+                    break;
+                case AspectCorrectionMode.TouchOuter:
+                    if (aspect > 1)
+                    {
+                        vb = 1 / aspect;
+                    }
+                    if (aspect < 1)
+                    {
+                        hb = aspect;
+                    }
+                    gl2.LoadIdentity();
+                    gl2.Ortho(-hb, hb, -vb, vb, 0, -100);
+                    break;
+                default:
+                    throw new NotImplementedException("unknown aspect correction mode!");
             }
         }
 
@@ -407,15 +414,18 @@ namespace Cave.Media.Video
 		public Vector2 Resolution { get; private set; }
 
 
-        public bool UseResolutionAspect {
+        /// <summary>
+        /// aspect correction mode to use
+        /// </summary>
+        public AspectCorrectionMode AspectCorrection  {
             get
             {
-                return useResolutionAspect;
+                return aspectCorrection;
             }
             set
             {
-                useResolutionAspect = value;
-                if (window.IsValid) UpdateAspect();
+                aspectCorrection = value;
+                if (window.IsValid) UpdateAspectCorrection();
             }
         }
 
@@ -536,7 +546,7 @@ namespace Cave.Media.Video
 			gl2.Enable(GL._BLEND);
 			gl2.BlendFunc(GL._SRC_ALPHA, GL._ONE_MINUS_SRC_ALPHA);
 			gl2.MatrixMode(GL._PROJECTION);
-            UpdateAspect();
+            UpdateAspectCorrection();
 			PrepareFramebuffer();
             Trace.TraceInformation("Initialized {0} using {1} resolution {2}x{3} using OpenGL {4} Shader {5}", parent, flags, width, height, gl2.GetString(GL._VERSION), gl2.GetString(GL._SHADING_LANGUAGE_VERSION));
 		}		
