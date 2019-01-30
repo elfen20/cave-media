@@ -1,17 +1,28 @@
-﻿using Cave.Media.OpenGL;
+﻿using Cave.Console;
+using Cave.Media;
+using Cave.Media.OpenGL;
 using Cave.Media.Video;
-using Cave.Console;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Drawing;
-using Cave.Media;
+using System.Threading;
 
 namespace OpenGLCheck
 {
+
+    public static class Extensions
+    {
+
+        public static T Next<T>(this T src) where T : struct
+        {
+            if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
+
+            T[] Arr = (T[])Enum.GetValues(src.GetType());
+            int j = Array.IndexOf<T>(Arr, src) + 1;
+            return (Arr.Length == j) ? Arr[0] : Arr[j];
+        }
+    }
+
     class Program
     {
         Glfw3Renderer renderer;
@@ -187,7 +198,7 @@ namespace OpenGLCheck
                 if (!int.TryParse(args.Options["d"].Value, out width)) throw new Exception("error parsing display number");
                 SystemConsole.WriteLine($"\t<yellow>Using {display}: {devs[display].Name}<default>");
             }
-            renderer.UseResolutionAspect = true;
+            renderer.AspectCorrection = AspectCorrectionMode.TouchOuter;
             renderer.Closed += WindowClosed;
             renderer.MouseButtonChanged += MBChanged;
             renderer.Initialize(devs[display], rmode, RendererFlags.WaitRetrace, width, height, "OpenGL Test");
@@ -197,7 +208,21 @@ namespace OpenGLCheck
 
         private void MBChanged(object sender, glfw3.MouseButtonEventArgs e)
         {
-            if (e.State == glfw3.InputState.Press) closed = true;
+            if (e.State == glfw3.InputState.Press)
+            {
+                SystemConsole.WriteLine($"mouse click: w[{e.Position.X}|{e.Position.Y}] s[{e.PositionNorm.X:F2}|{e.PositionNorm.Y:F2}]");
+
+            }
+
+            if (e.State == glfw3.InputState.Release)
+            {
+                if (e.PositionNorm.X < 0.1f && e.PositionNorm.Y < 0.1f) closed = true;
+
+                if (e.Button == glfw3.MouseButton.ButtonRight)
+                {
+                    renderer.AspectCorrection = renderer.AspectCorrection.Next();
+                }
+            }
         }
 
         private void WindowClosed(object sender, EventArgs e)
