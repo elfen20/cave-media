@@ -58,7 +58,7 @@ namespace IseSkin
                     if (needsReFit)
                     {
                         Trace.TraceInformation($"new FrameBuffer size: ({renderer.Resolution.X},{renderer.Resolution.Y})");
-                        renderer.SetWindowTitle($"ISE Skin [{renderer.Resolution.X},{renderer.Resolution.Y}:{iseSkin?.GetCurrentSizeName()}]");
+                        renderer.SetWindowTitle($"ISE Skin [{renderer.Resolution.X},{renderer.Resolution.Y}@{iseSkin?.GetCurrentSizeName()}]");
                         iseSkin?.ReadSpriteValues();
                         needsReFit = false;
                     }
