@@ -50,8 +50,8 @@
     <Reference Include="Cave.IO, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9c6246ce3e4f0673, processorArchitecture=MSIL">
       <HintPath>..\packages\Cave.IO.1.0.5\lib\net45\Cave.IO.dll</HintPath>
     </Reference>
-    <Reference Include="Cave.Media, Version=1.0.5.0, Culture=neutral, PublicKeyToken=53edfbdc2021850f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cave.Media.1.0.5\lib\net46\Cave.Media.dll</HintPath>
+    <Reference Include="Cave.Media, Version=1.0.6.0, Culture=neutral, PublicKeyToken=53edfbdc2021850f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cave.Media.1.0.6-ci-20190410-4\lib\net46\Cave.Media.dll</HintPath>
     </Reference>
     <Reference Include="Cave.Media.Skia, Version=1.0.1.0, Culture=neutral, PublicKeyToken=fa5af7847a29a744, processorArchitecture=MSIL">
       <HintPath>..\packages\Cave.Media.Skia.1.0.1\lib\net45\Cave.Media.Skia.dll</HintPath>
