@@ -70,7 +70,7 @@ namespace Bitmap32Test
             {
                 g.Clear(Color.Gray);
                 var b32 = new Bitmap32(background32.Width, background32.Height);
-                b32.Draw(background32, 0, 0, new Translation() { Rotation = 1f });
+                b32.Draw(background32, 0, 0, new Translation() { Rotation = 4f });
                 g.DrawImage(b32.ToGdiBitmap(), 0, 0);
             }
         }
