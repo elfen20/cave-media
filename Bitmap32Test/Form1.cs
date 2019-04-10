@@ -11,9 +11,18 @@ namespace Bitmap32Test
     {
         Bitmap background;
         Bitmap32 background32;
+
+        IBitmap32Loader skialoader;
+        IBitmap32Loader gdiloader;
+
         public Form1()
         {
             InitializeComponent();
+
+            skialoader = new SkiaBitmap32Loader();
+            gdiloader = new GdiBitmap32Loader();
+            Bitmap32.Loader = gdiloader;
+
             background = new Bitmap(100, 100);
             using (Graphics g = Graphics.FromImage(background))
             {
@@ -85,6 +94,18 @@ namespace Bitmap32Test
                 var b32 = new Bitmap32(background32.Width, background32.Height);
                 b32.Draw(background32, 0, 0, new Translation() { FlipVertically = true });
                 g.DrawImage(b32.ToGdiBitmap(), 0, 0);
+            }
+        }
+
+        private void cbUseSkia_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbUseSkia.Checked)
+            {
+                Bitmap32.Loader = skialoader;
+            }
+            else
+            {
+                Bitmap32.Loader = gdiloader;
             }
         }
     }

@@ -34,6 +34,7 @@
             this.bRotate = new System.Windows.Forms.Button();
             this.bFlipX = new System.Windows.Forms.Button();
             this.bFlipY = new System.Windows.Forms.Button();
+            this.cbUseSkia = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -110,11 +111,24 @@
             this.bFlipY.UseVisualStyleBackColor = true;
             this.bFlipY.Click += new System.EventHandler(this.bFlipY_Click);
             // 
+            // cbUseSkia
+            // 
+            this.cbUseSkia.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbUseSkia.AutoSize = true;
+            this.cbUseSkia.Location = new System.Drawing.Point(1091, 24);
+            this.cbUseSkia.Name = "cbUseSkia";
+            this.cbUseSkia.Size = new System.Drawing.Size(127, 29);
+            this.cbUseSkia.TabIndex = 7;
+            this.cbUseSkia.Text = "use Skia";
+            this.cbUseSkia.UseVisualStyleBackColor = true;
+            this.cbUseSkia.CheckedChanged += new System.EventHandler(this.cbUseSkia_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1230, 733);
+            this.Controls.Add(this.cbUseSkia);
             this.Controls.Add(this.bFlipY);
             this.Controls.Add(this.bFlipX);
             this.Controls.Add(this.bRotate);
@@ -127,6 +141,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -138,6 +153,7 @@
         private System.Windows.Forms.Button bRotate;
         private System.Windows.Forms.Button bFlipX;
         private System.Windows.Forms.Button bFlipY;
+        private System.Windows.Forms.CheckBox cbUseSkia;
     }
 }
 
