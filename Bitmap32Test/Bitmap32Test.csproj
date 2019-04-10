@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cave.Media\Cave.Media.csproj">
+      <Project>{7f4848ea-207b-4fad-8934-4c695ca8f631}</Project>
+      <Name>Cave.Media</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
