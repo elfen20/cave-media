@@ -20,10 +20,10 @@ namespace Cave.Media
             using (Bitmap32 thumb = bitmap.Resize(32, 32, ResizeMode.TouchFromInside))
             {
                 ARGBImageData data = thumb.Data;
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     // calculate fingerprint and distance matrix
-                    BitStreamWriter writer = new BitStreamWriter(ms);
+                    var writer = new BitStreamWriter(ms);
                     float[] distanceMatrix = new float[16];
                     {
                         int x = 0, y = 0;
@@ -85,7 +85,6 @@ namespace Cave.Media
         }
 
         string base32data;
-        byte[] data;
         uint[] blocks;
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace Cave.Media
         /// <summary>
         /// Gets the full fingerprint data.
         /// </summary>
-        public byte[] Data => data;
+        public byte[] Data { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FingerPrint"/> class.
@@ -113,7 +112,7 @@ namespace Cave.Media
         {
             PixelSize = pixelSize;
             this.blocks = blocks;
-            this.data = data;
+            this.Data = data;
             if (data.Length != ((pixelSize * pixelSize * 6) + 7) / 8)
             {
                 throw new ArgumentOutOfRangeException("data.Length", "Data length is out of range!");
@@ -146,7 +145,7 @@ namespace Cave.Media
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -162,7 +161,7 @@ namespace Cave.Media
         /// </returns>
         public override bool Equals(object obj)
         {
-            FingerPrint other = obj as FingerPrint;
+            var other = obj as FingerPrint;
             return other == null ? false : ToString().Equals(other.ToString());
         }
 

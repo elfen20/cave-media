@@ -54,12 +54,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Cave.Media.dll.config" />
     <None Remove="Cave.Media.snk" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cave.Media.dll.config">
       <Pack>true</Pack>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>Cave.Media.dll.config</Link>
     </Content>
   </ItemGroup>
@@ -74,8 +79,19 @@
     <PackageReference Include="Cave.IO" Version="1.0.5" />
     <PackageReference Include="Cave.Net" Version="1.0.7" />
     <PackageReference Include="Cave.Platform" Version="1.0.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="CaveSystemMedia.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

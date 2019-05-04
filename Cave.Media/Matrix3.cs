@@ -8,7 +8,6 @@ namespace Cave.Media
     /// <summary>
     /// Provides a simple 3d matrix with float values.
     /// </summary>
-
     [StructLayout(LayoutKind.Explicit, Size = 3 * 3 * 4)]
     public struct Matrix3
     {
@@ -38,9 +37,9 @@ namespace Cave.Media
                 throw new FormatException();
             }
 
-            Vector3 v1 = Vector3.Parse("(" + l_Vectors[0] + ")");
-            Vector3 v2 = Vector3.Parse("(" + l_Vectors[1] + ")");
-            Vector3 v3 = Vector3.Parse("(" + l_Vectors[2] + ")");
+            var v1 = Vector3.Parse("(" + l_Vectors[0] + ")");
+            var v2 = Vector3.Parse("(" + l_Vectors[1] + ")");
+            var v3 = Vector3.Parse("(" + l_Vectors[2] + ")");
             return FromColumns(v1, v2, v3);
         }
 
@@ -48,13 +47,7 @@ namespace Cave.Media
         /// Obtains an empty <see cref="Matrix3"/>.
         /// </summary>
         /// <returns>Returns a new empty <see cref="Matrix3"/> instance (all values set to 0).</returns>
-        public static Matrix3 Empty
-        {
-            get
-            {
-                return new Matrix3();
-            }
-        }
+        public static Matrix3 Empty => default(Matrix3);
 
         /// <summary>
         /// Creates a new <see cref="Matrix3"/> with the specified rows.
@@ -85,7 +78,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix3 FromRows(Vector3 v1, Vector3 v2, Vector3 v3)
         {
-            Matrix3 result = new Matrix3();
+            var result = new Matrix3();
             result.v11 = v1.X;
             result.v21 = v1.Y;
             result.v31 = v1.Z;
@@ -127,7 +120,7 @@ namespace Cave.Media
         /// <returns></returns>
         public static Matrix3 FromColumns(Vector3 v1, Vector3 v2, Vector3 v3)
         {
-            Matrix3 result = new Matrix3();
+            var result = new Matrix3();
             result.v11 = v1.X;
             result.v12 = v1.Y;
             result.v13 = v1.Z;
@@ -155,7 +148,7 @@ namespace Cave.Media
         /// <returns>Returns a new <see cref="Matrix3"/> instance with the specified values.</returns>
         public static Matrix3 Create(float p11, float p12, float p13, float p21, float p22, float p23, float p31, float p32, float p33)
         {
-            Matrix3 result = new Matrix3();
+            var result = new Matrix3();
             result.v11 = p11;
             result.v12 = p12;
             result.v13 = p13;
@@ -233,67 +226,67 @@ namespace Cave.Media
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for equality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator ==(Matrix3 A, Matrix3 B)
+        public static bool operator ==(Matrix3 first, Matrix3 second)
         {
-            return Equals(null, A) ? Equals(null, B) : A.Equals(B);
+            return Equals(null, first) ? Equals(null, second) : first.Equals(second);
         }
 
         /// <summary>
         /// Checks two <see cref="Matrix3"/> instances for inequality.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static bool operator !=(Matrix3 A, Matrix3 B)
+        public static bool operator !=(Matrix3 first, Matrix3 second)
         {
-            return Equals(null, A) ? !Equals(null, B) : !A.Equals(B);
+            return Equals(null, first) ? !Equals(null, second) : !first.Equals(second);
         }
 
         /// <summary>
         /// Calculates the sum of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator +(Matrix3 A, Matrix3 B)
+        public static Matrix3 operator +(Matrix3 first, Matrix3 second)
         {
-            return A.Add(B);
+            return first.Add(second);
         }
 
         /// <summary>
         /// Calculates the product of two <see cref="Matrix3"/> structs.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator *(Matrix3 A, Matrix3 B)
+        public static Matrix3 operator *(Matrix3 first, Matrix3 second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
 
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a <see cref="Vector3"/>.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Matrix3 A, Vector3 B)
+        public static Vector3 operator *(Matrix3 first, Vector3 second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
 
         /// <summary>
         /// Calculates the product of a <see cref="Matrix3"/> struct and a scalar.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
         /// <returns></returns>
-        public static Matrix3 operator *(Matrix3 A, float B)
+        public static Matrix3 operator *(Matrix3 first, float second)
         {
-            return A.Multiply(B);
+            return first.Multiply(second);
         }
         #endregion
 
@@ -475,8 +468,7 @@ namespace Cave.Media
             return Vector3.Create(
                 (v11 * vector.X) + (v12 * vector.Y) + (v13 * vector.Z),
                 (v21 * vector.X) + (v22 * vector.Y) + (v23 * vector.Z),
-                (v31 * vector.X) + (v32 * vector.Y) + (v33 * vector.Z)
-            );
+                (v31 * vector.X) + (v32 * vector.Y) + (v33 * vector.Z));
         }
 
         /// <summary>
@@ -486,7 +478,7 @@ namespace Cave.Media
         /// <returns>Returns the matrix-scalar product.</returns>
         public Matrix3 Multiply(float value)
         {
-            Matrix3 result = (Matrix3)Clone();
+            var result = (Matrix3)Clone();
             for (int i = 0; i < 9; i++)
             {
                 result[i] *= value;
@@ -505,15 +497,12 @@ namespace Cave.Media
                 (v11 * matrix.v11) + (v12 * matrix.v21) + (v13 * matrix.v31),
                 (v11 * matrix.v12) + (v12 * matrix.v22) + (v13 * matrix.v32),
                 (v11 * matrix.v13) + (v12 * matrix.v23) + (v13 * matrix.v33),
-
                 (v21 * matrix.v11) + (v22 * matrix.v21) + (v23 * matrix.v31),
                 (v21 * matrix.v12) + (v22 * matrix.v22) + (v23 * matrix.v32),
                 (v21 * matrix.v13) + (v22 * matrix.v23) + (v23 * matrix.v33),
-
                 (v31 * matrix.v11) + (v32 * matrix.v21) + (v33 * matrix.v31),
                 (v31 * matrix.v12) + (v32 * matrix.v22) + (v33 * matrix.v32),
-                (v31 * matrix.v13) + (v32 * matrix.v23) + (v33 * matrix.v33)
-            );
+                (v31 * matrix.v13) + (v32 * matrix.v23) + (v33 * matrix.v33));
         }
 
         /// <summary>
@@ -523,7 +512,7 @@ namespace Cave.Media
         /// <returns>Returns the matrix-sum.</returns>
         public Matrix3 Add(Matrix3 matrix)
         {
-            Matrix3 result = (Matrix3)Clone();
+            var result = (Matrix3)Clone();
             for (int i = 0; i < 9; i++)
             {
                 result[i] += matrix[i];
@@ -543,7 +532,7 @@ namespace Cave.Media
                 return false;
             }
 
-            Matrix3 other = (Matrix3)obj;
+            var other = (Matrix3)obj;
             return
                 (other.v11 == v11) && (other.v12 == v12) && (other.v13 == v13) &&
                 (other.v21 == v21) && (other.v22 == v22) && (other.v23 == v23) &&
@@ -560,7 +549,7 @@ namespace Cave.Media
         /// </returns>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             result.Append("[");
             for (int y = 0; y < 3; y++)
             {
