@@ -6,7 +6,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// other vocal activities. The head includes an encoding descriptor and
     /// a content descriptor.
     /// </summary>
-
     public sealed class ID3v2USLTFrame : ID3v2Frame
     {
         bool m_Parsed = false;
@@ -16,7 +15,7 @@ namespace Cave.Media.Audio.ID3.Frames
 
         void Parse()
         {
-            ID3v2EncodingType encoding = (ID3v2EncodingType)m_Content[0];
+            var encoding = (ID3v2EncodingType)m_Content[0];
             m_Language = ID3v2Encoding.ISO88591.GetString(m_Content, 1, 3);
             int start = 4 + ID3v2Encoding.Parse(encoding, m_Content, 4, out m_Descriptor);
             string text;

@@ -8,7 +8,6 @@
 #endregion
 using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace Cave.Media.Audio.MP3
 {
@@ -100,8 +99,8 @@ namespace Cave.Media.Audio.MP3
         }
 
         /// <summary>
-        /// Reads a frame from the MP3 stream.  
-        /// Returns whether the operation was successful. 
+        /// Reads a frame from the MP3 stream.
+        /// Returns whether the operation was successful.
         /// </summary>
         bool DecodeFrame(MP3AudioFrame frame)
         {

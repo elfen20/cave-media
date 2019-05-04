@@ -6,17 +6,16 @@
     Wherever possible everything was cleaned up and done the .net / CaveProjects way.
 */
 #endregion
-using Cave.IO;
-using Cave.Media.Audio.MP3;
 using System;
 using System.IO;
+using Cave.Media.Audio.MP3;
 
 namespace Cave.Media.Audio
 {
     /// <summary>
     /// Provides a abstract base class for audio decoder implementations.
     /// </summary>
-    /// <seealso cref="Cave.Media.Audio.IAudioDecoder" />
+    /// <seealso cref="IAudioDecoder" />
     public abstract class AudioDecoder : IAudioDecoder
     {
         /// <summary>Called when [decoding a frame].</summary>

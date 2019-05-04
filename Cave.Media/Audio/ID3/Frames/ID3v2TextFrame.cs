@@ -9,7 +9,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// The text information frames are the most important frames, containing information like artist, album and more.
     /// There may only be one text information frame of its kind in an tag.
     /// </summary>
-
     public class ID3v2TextFrame : ID3v2Frame
     {
         /// <summary>Creates a new ID3v2TextFrame.</summary>
@@ -18,7 +17,7 @@ namespace Cave.Media.Audio.ID3.Frames
         /// <param name="id">The identifier.</param>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
         public static ID3v2TextFrame Create(ID3v2Header header, ID3v2FrameFlags flags, string id, string text)
         {
             ID3v2EncodingType encoding = ID3v2Encoding.Select(header, text);
@@ -26,10 +25,10 @@ namespace Cave.Media.Audio.ID3.Frames
             // header, encoding[1], name+0
             byte[] textBytes = ID3v2Encoding.GetBytes(encoding, text, true);
             int contentSize = 1 + textBytes.Length;
-            ID3v2FrameHeader frameHeader = ID3v2FrameHeader.Create(header, id, flags, contentSize);
-            using (MemoryStream ms = new MemoryStream())
+            var frameHeader = ID3v2FrameHeader.Create(header, id, flags, contentSize);
+            using (var ms = new MemoryStream())
             {
-                DataWriter writer = new DataWriter(ms);
+                var writer = new DataWriter(ms);
                 writer.Write(frameHeader.Data);
                 writer.Write((byte)encoding);
                 writer.Write(textBytes);

@@ -4,11 +4,10 @@
     Copyright(c) 1999-2011 Ross Bencina and Phil Burk
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Cave.IO;
 
 namespace Cave.Media.Audio.PORTAUDIO
 {
@@ -81,9 +80,10 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <exception cref="NotSupportedException">
         /// </exception>
         /// <exception cref="Exception"></exception>
-        internal PAOut(IAudioDevice dev, IAudioConfiguration configuration) : base(dev, configuration)
+        internal PAOut(IAudioDevice dev, IAudioConfiguration configuration)
+            : base(dev, configuration)
         {
-            PAStreamParameters l_OutputParameters = new PAStreamParameters();
+            var l_OutputParameters = new PAStreamParameters();
             switch (configuration.ChannelSetup)
             {
                 case AudioChannelSetup.Mono:
@@ -113,7 +113,7 @@ namespace Cave.Media.Audio.PORTAUDIO
         }
         #endregion
 
-        #region protected overrides        
+        #region protected overrides
 
         /// <summary>Begins playing.</summary>
         /// <exception cref="Exception">

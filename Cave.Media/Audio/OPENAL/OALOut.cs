@@ -4,12 +4,9 @@
     A non-GPL license for this library is not available.
 */
 #endregion
-
-using Cave.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Cave.Media.Audio.OPENAL
 {
@@ -211,7 +208,7 @@ namespace Cave.Media.Audio.OPENAL
         }
         #endregion
 
-        #region public overrides                
+        #region public overrides
 
         /// <summary>Gets or sets the pitch.</summary>
         /// <value>The pitch.</value>
