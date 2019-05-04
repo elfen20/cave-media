@@ -32,7 +32,7 @@ namespace Cave.Media.Audio.PORTAUDIO
 
         static IAudioDeviceCapabilities GetCapabilities(int devNumber)
         {
-            List<AudioConfiguration> configs = new List<AudioConfiguration>();
+            var configs = new List<AudioConfiguration>();
             foreach (int sampleRate in new int[] { 11025, 16000, 22050, 32000, 44100, 48000, 64000, 96000 })
             {
                 foreach (AudioChannelSetup setup in new AudioChannelSetup[] { AudioChannelSetup.Mono, AudioChannelSetup.Stereo })
@@ -53,7 +53,8 @@ namespace Cave.Media.Audio.PORTAUDIO
         /// <summary>Initializes a new instance of the <see cref="PADevice" /> class.</summary>
         /// <param name="api">The API.</param>
         /// <param name="devIndex">Index of the device.</param>
-        internal PADevice(IAudioAPI api, int devIndex) : base(api, GetName(devIndex), GetCapabilities(devIndex))
+        internal PADevice(IAudioAPI api, int devIndex)
+            : base(api, GetName(devIndex), GetCapabilities(devIndex))
         {
             DeviceIndex = devIndex;
         }

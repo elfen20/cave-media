@@ -1,6 +1,6 @@
-using Cave.IO;
 using System;
 using System.IO;
+using Cave.IO;
 
 namespace Cave.Media.Codecs
 {
@@ -73,7 +73,7 @@ namespace Cave.Media.Codecs
         /// <returns></returns>
         public byte[] EncodeRow(byte[] data)
         {
-            BitStreamReader reader = new BitStreamReader(new MemoryStream(data));
+            var reader = new BitStreamReader(new MemoryStream(data));
             int counter = 0;
             Initialize();
 

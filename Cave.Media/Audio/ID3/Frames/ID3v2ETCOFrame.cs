@@ -6,7 +6,6 @@ namespace Cave.Media.Audio.ID3.Frames
     /// <summary>
     /// This frame allows synchronisation with key events in a song or sound.
     /// </summary>
-
     public sealed class ID3v2ETCOFrame : ID3v2Frame
     {
         ID3v2Event[] m_Events = null;
@@ -283,11 +282,11 @@ namespace Cave.Media.Audio.ID3.Frames
                 case 1: isTimeStamp = true; break;
                 default: throw new NotImplementedException(string.Format("Mode {0} is not implemented!", mode));
             }
-            List<Event> events = new List<Event>();
+            var events = new List<Event>();
             int i = 1;
             while (i < m_Data.Length)
             {
-                EventType type = (EventType)m_Data[i++];
+                var type = (EventType)m_Data[i++];
                 int value = 0;
                 for (int n = 0; n < 4; n++)
                 {

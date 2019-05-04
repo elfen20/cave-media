@@ -61,7 +61,7 @@ namespace Cave.Media.Lyrics
 
         /// <summary>Plays the specified command.</summary>
         /// <param name="cmd">The command.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public void Play(ISynchronizedLyricsCommand cmd)
         {
             switch (cmd.Type)
@@ -162,8 +162,11 @@ namespace Cave.Media.Lyrics
 
                 for (int x = 0; x < cmd.Width; x++)
                 {
-                    if (--shift < 0) { shift = 7;
-                        b++; }
+                    if (--shift < 0)
+                    {
+                        shift = 7;
+                        b++;
+                    }
                     int color = (current >> shift) & 1;
                     switch (cmd.Type)
                     {
@@ -238,7 +241,7 @@ namespace Cave.Media.Lyrics
         {
             int w = BufferWidth - 12;
             int h = BufferHeight - 24;
-            ARGBImageData data = new ARGBImageData(w, h);
+            var data = new ARGBImageData(w, h);
             int targetOffset = 0;
             int sourceOffset = (BufferWidth * (12 + m_OffsetVertical)) + m_OffsetHorizontal + 6;
             for (int y = 0; y < h; y++)
